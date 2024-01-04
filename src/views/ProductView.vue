@@ -1,5 +1,6 @@
 <template>
   <div class="Container">
+    <!-- <h1>{{$store.state.cart}}</h1> -->
     <div class="FilterContainer">
       <Filter
         ><FilterText>Filter Products:</FilterText>

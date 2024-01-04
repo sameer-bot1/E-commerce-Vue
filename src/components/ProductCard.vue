@@ -6,6 +6,7 @@
         :alt="brand"
         class="product__image"
         loading="lazy"
+        @click="setActiveImage(index)"
       />
     </div>
 
@@ -22,7 +23,7 @@
 
       <button
         class="cart"
-        @click="$router.push('/Cart')"
+        @click="addToCart"
         aria-label="View Item"
       >
         <font-awesome-icon icon="fa-solid fa-cart-shopping" />
@@ -33,6 +34,9 @@
 </template>
 
 <script>
+import { mapActions, mapState } from "vuex";
+import { productsData } from "../../data";
+
 
 export default {
   name: "ProductCard",
@@ -46,6 +50,63 @@ export default {
     "image_url",
     "in_stock",
   ],
+  data() {
+        return {
+            activeImage: "",
+            product: [],
+            loaded: false,
+            size: "",
+            quantity: 1,
+            // validSize: false,
+        };
+    },
+    methods: {
+        ...mapActions(["add_to_cart"]),
+        setActiveImage(image) {
+            this.activeImage = this.product.images[image];
+        },
+        // addToCart() {
+        //     if (this.size === "Select Size") {
+        //         this.validSize = true;
+        //     } else {
+        //         let item = {
+        //             ...this.product,
+        //             id: this.productId,
+        //             quantity: this.quantity,
+        //             size: this.size,
+        //         };
+        //         this.add_to_cart(item);
+        //     }
+        // },
+         addToCart() {
+      // Assuming you have a valid Vuex store structure and mutation for adding to the cart
+      let item = {
+        id: this.productId,
+        productName: this.productName,
+        brand: this.brand,
+        price: this.price,
+        image_url: this.image_url,
+        in_stock: this.in_stock,
+        size: this.size,
+        quantity: this.quantity,
+      };
+      this.add_to_cart(item);
+    },
+
+        async created() {
+        let res = productsData[1];
+        this.product = res.data;
+        this.loaded = true;
+        this.activeImage = this.product.images[0];
+    },
+    },
+    computed: {
+        ...mapState(["cart"]),
+        formattedPrice() {
+            return this.product.currency + " " + this.product.price.toFixed(2);
+        },
+    },
+
   
 };
 </script>
@@ -140,3 +201,4 @@ export default {
   background-color: var(--light-green);
 }
 </style>
+

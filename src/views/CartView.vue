@@ -1,5 +1,6 @@
 <template>
   <main-header />
+ 
   <about-header
     heading="# Your cart"
     subHeading="Add your coupon code and save up to 70% on all purchases!"
@@ -20,21 +21,37 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
+              <tr v-for="(item, index) in cart" :key="index">
                 <td>
-                  <div class="delete-btn">
+                  <div class="delete-btn" @click="deleteItem">
                     <font-awesome-icon icon="fa-solid fa-trash" />
                   </div>
                 </td>
                 <td>
-                  <img class="img" />
+                  <img class="img" :src="item.image_url"
+                      
+                   />
                 </td>
-                <td></td>
-                <td></td>
+                <!-- <h1>item.images[0]</h1> -->
+                <td>{{ item.brand }}</td>
                 <td>
-                  <input type="number" placeholder="1" min="1" max="10" />
+                  {{ item.currency }}
+                  {{ item.price.toFixed(2) }}
                 </td>
-                <td></td>
+                <td>
+                  <input
+                    type="number"
+                    v-model="item.quantity"
+                    placeholder="1"
+                    min="1"
+                    max="10"
+                    @input="updateTotalPrice(item)"
+                  />
+                </td>
+                <td>
+                  {{ item.currency }}
+                  {{ (item.quantity * item.price).toFixed(2) }}
+                </td>
               </tr>
             </tbody>
           </table>
@@ -54,7 +71,7 @@
               <thead>
                 <tr>
                   <td>Cart Total</td>
-                  <td>NGN</td>
+                  <td>{{ subtotal.toFixed(2) }}</td>
                 </tr>
               </thead>
               <tbody>
@@ -65,11 +82,12 @@
                 <tr>
                   <td><strong>Total</strong></td>
                   <td>
-                    <strong>NGN </strong>
+                    <strong>{{ subtotal.toFixed(2) }} </strong>
                   </td>
                 </tr>
               </tbody>
             </table>
+             <action-button btnvalue=" Checkout" />
           </div>
         </div>
       </section>
@@ -89,15 +107,41 @@
 
 <script>
 import FooterView from "@/components/FooterView.vue";
+import ActionButton from "@/components/ActionButton.vue";
+
 import AboutHeader from "@/components/AboutHeader";
+import { mapState, mapActions, mapGetters } from "vuex";
 
 export default {
-  components: { FooterView, AboutHeader },
+  components: { FooterView, AboutHeader,ActionButton },
   name: "CartView",
   data() {
     return {
-      cart: [],
+      total: 0,
     };
+  },
+  methods: {
+    ...mapActions(["delete_item", "update_quantity"]),
+    deleteItem(index) {
+      this.delete_item(index);
+    },
+
+    // update total price of cart and increase the quantity of product in cart
+    updateTotalPrice(item) {
+      this.update_quantity(item);
+      this.cart.forEach((item) => {
+        this.total += item.quantity * item.price;
+      });
+    },
+  },
+  computed: {
+    ...mapState(["cart"]),
+    ...mapGetters(["subtotal"]),
+  },
+  mounted() {
+    this.cart.forEach((item) => {
+      this.total += item.quantity * item.price;
+    });
   },
 };
 </script>

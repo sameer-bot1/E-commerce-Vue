@@ -3,13 +3,15 @@ import createPersistedState from "vuex-persistedstate";
 
 const store = createStore({
     state: {
+        user: null,
         cart: [],
-        cartTotal: 0
+        products: [],
     },
     mutations: {
        
         addToCart(state, payload) {
             if (state.cart.length != 0) {
+                // state.cart.length = 0;
                 let item = state.cart.find((item) => item.id === payload.id);
 
                 if (item) {

@@ -17,11 +17,12 @@ export default {
 <style scoped>
 button {
   border: none;
-  background-color: grey;
-  padding: 2px 10px;
+  background-color: rgb(31, 149, 189);
+  padding: 2px 7px;
   border: 2px solid grey;
-  font-size: 1.7rem;
+  font-size: 1.2rem;
   color: black;
+  border-radius: 8px;
 }
 
 button:hover {

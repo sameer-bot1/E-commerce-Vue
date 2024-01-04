@@ -34,6 +34,10 @@
             <badge :badge-content="quantity" color="primary">
               <ShoppingCartOutlined />
             </badge>
+
+            <div class="qty">
+              <span>{{ $store.state.cart.length }}</span>
+            </div>
           </div>
         </router-link>
       </div>
@@ -58,8 +62,9 @@ export default {
   justify-content: space-between;
   align-items: center;
   padding: 10px;
-  background-color: #f0f0f0; 
+  background-color: #f0f0f0;
 }
+
 
 .left {
   display: flex;
@@ -100,6 +105,21 @@ export default {
 .menu-item:hover {
   color: #3498db;
 }
+.qty {
+    height: 18px;
+    width: 18px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: rgb(9, 134, 175);
+    font-size: 14px;
+    color: white;
+    font-weight: 500;
+    position: absolute;
+    top: 7px;
+    right: 50px;
+}
 
 .right a {
   text-decoration: none;
@@ -120,7 +140,6 @@ export default {
     justify-content: center;
   }
   .menu-item {
-   
     cursor: pointer;
     font-size: 0.8rem;
   }
