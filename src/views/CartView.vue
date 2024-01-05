@@ -76,13 +76,13 @@
               </thead>
               <tbody>
                 <tr>
-                  <td>Shipping Fee</td>
-                  <td>Free</td>
+                  <td>15% GST</td>
+                  <td>{{gst.toFixed(2)}}</td>
                 </tr>
                 <tr>
                   <td><strong>Total</strong></td>
                   <td>
-                    <strong>{{ subtotal.toFixed(2) }} </strong>
+                    <strong>{{ subtotalGst.toFixed(2) }} </strong>
                   </td>
                 </tr>
               </tbody>
@@ -136,7 +136,7 @@ export default {
   },
   computed: {
     ...mapState(["cart"]),
-    ...mapGetters(["subtotal"]),
+    ...mapGetters(["subtotal","subtotalGst","gst"]),
   },
   mounted() {
     this.cart.forEach((item) => {

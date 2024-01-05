@@ -75,6 +75,26 @@ const store = createStore({
             });
             return subtotal;
         },
+        subtotalGst: (state) => {
+            let subtotal = 0;
+            state.cart.forEach((item) => {
+                subtotal += item.price * item.quantity;
+            });     
+            const gst = 0.15 * subtotal;
+        
+            const totalWithGst = subtotal + gst;
+        
+            return totalWithGst;
+        },
+        gst: (state) => {
+            let subtotal = 0;
+            state.cart.forEach((item) => {
+                subtotal += item.price * item.quantity;
+            });     
+            const gst = 0.15 * subtotal;
+        
+            return gst;
+        },
        
     },
     plugins: [createPersistedState()],
